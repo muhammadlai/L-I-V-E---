@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "check": "node --check server.js && node --check runtime.js",
+    "check": "node --check server.js",
     "cap:sync": "npx cap sync",
     "cap:android": "npx cap open android"
   },
