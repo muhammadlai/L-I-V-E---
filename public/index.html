@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ur">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>SARA AI — Talking Avatar</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#05060a;color:#fff;font-family:Inter,system-ui,sans-serif}
+#app{position:relative;width:100vw;height:100vh;background:radial-gradient(circle at 50% 15%,#3a2344,#0b0d14 50%,#030407)}
+#avatar,#fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+#avatar{display:none;background:#05060a}.live #avatar{display:block}.live #fallback{display:none}
+.top{position:absolute;top:14px;left:14px;right:14px;z-index:10;display:flex;justify-content:space-between;gap:8px}.badge{background:#080b12dd;border:1px solid #34394a;border-radius:999px;padding:9px 13px;font-size:12px;backdrop-filter:blur(12px)}
+#dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ff4d6d;margin-right:7px}.good{background:#39df84!important}
+.panel{position:absolute;left:50%;transform:translateX(-50%);bottom:92px;width:min(900px,calc(100% - 24px));z-index:10;background:#080b12e8;border:1px solid #34394a;border-radius:18px;padding:12px 14px;text-align:center;backdrop-filter:blur(14px)}
+#caption{display:none;line-height:1.55}.show{display:block!important}
+.controls{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:11;display:flex;gap:8px;width:min(900px,calc(100% - 24px));justify-content:center}
+button,input{border:1px solid #34394a;background:#0b0e16ee;color:#fff;border-radius:12px;padding:11px 14px;font:inherit}button{font-weight:700;cursor:pointer}.primary{background:#6c3df5;border-color:#8b68ff}.stop{background:#4b1720}.settings{position:absolute;right:14px;top:62px;z-index:12;display:none;width:min(430px,calc(100% - 28px));background:#080b12f5;border:1px solid #34394a;border-radius:16px;padding:14px}.settings.open{display:block}.settings input{width:100%;margin:7px 0 10px}.hint{font-size:11px;color:#aeb4c3;line-height:1.45}
+</style>
+</head>
+<body>
+<div id="app">
+<img id="fallback" src="avatar.svg" alt="SARA female avatar">
+<video id="avatar" autoplay playsinline></video>
+<div class="top"><div class="badge">SARA AI • Virtual Host</div><div class="badge"><span id="dot"></span><span id="status">Ready</span></div></div>
+<div class="panel"><div id="caption">السلام علیکم! میں SARA ہوں۔ مجھ سے بات کریں۔</div><div id="mic">🎤 مائیک آن کریں، پھر بات شروع کریں۔</div></div>
+<div class="controls"><button id="talk" class="primary">🎤 بات کریں</button><button id="stop" class="stop">⏹ Stop</button><button id="settings">⚙️</button><button id="tiktok">TikTok</button></div>
+<div id="settingsBox" class="settings"><b>Backend URL</b><input id="backendInput" placeholder="https://your-backend.example.com"><button id="saveBackend">Save & Connect</button><div class="hint">APK میں یہی URL ڈالیں جہاں Node backend چل رہا ہو۔ Secrets browser میں نہ رکھیں۔</div></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const params=new URLSearchParams(location.search);
+let BACKEND=params.get('backend')||localStorage.getItem('sara_backend_url')||'';
+let recognition=null,listening=false,busy=false,liveAvatar=null;
+$('backendInput').value=BACKEND;
+const api=(p,o={})=>fetch((BACKEND||'')+p,{credentials:'include',...o,headers:{Accept:'application/json',...(o.headers||{})}});
+function status(t,good=false){$('status').textContent=t;$('dot').classList.toggle('good',good)}
+function caption(t){$('caption').textContent=t;$('caption').classList.add('show')}
+function speak(text){if(!('speechSynthesis'in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='ur-PK';u.rate=.98;u.pitch=1;window.speechSynthesis.speak(u)}
+function setupRecognition(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){$('mic').textContent='اس موبائل/براؤزر میں voice recognition available نہیں؛ نیچے Talk بٹن کے بعد text fallback آئے گا۔';return false}recognition=new SR();recognition.lang='ur-PK';recognition.interimResults=false;recognition.continuous=false;recognition.onstart=()=>{listening=true;status('سن رہی ہوں…',true);$('mic').textContent='🎤 میں سن رہی ہوں، بولیں…'};recognition.onresult=e=>{const t=e.results[0]?.[0]?.transcript?.trim();listening=false;if(t)sendMessage(t)};recognition.onerror=()=>{listening=false;status('Mic error');$('mic').textContent='Microphone permission allow کریں۔'};recognition.onend=()=>{listening=false}}
+async function startMic(){if(busy)return;if(!recognition&&!setupRecognition()){const t=prompt('SARA کو کیا کہنا ہے؟');if(t)sendMessage(t);return}try{recognition.start()}catch{}}
+async function sendMessage(text){if(!text||busy)return;busy=true;status('سوچ رہی ہوں…',true);caption('آپ: '+text);$('mic').textContent='SARA جواب تیار کر رہی ہے…';try{const r=await api('/api/sara/message',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,language:'ur'})});const x=await r.json();if(!r.ok)throw Error(x.error||'Backend error');caption('SARA: '+x.reply);status('بول رہی ہوں…',true);if(liveAvatar&&typeof liveAvatar.repeat==='function'){await liveAvatar.repeat(x.reply)}else speak(x.reply)}catch(e){caption('مسئلہ: '+e.message);status('Connection error');speak('معذرت، ابھی میرے سرور سے رابطہ نہیں ہو رہا۔')}finally{busy=false;status('Ready',true);$('mic').textContent='🎤 دوبارہ بات کرنے کے لیے Talk دبائیں۔'}}
+async function startLiveAvatar(){try{const r=await api('/api/liveavatar/token',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});const x=await r.json();if(!r.ok)throw Error(x.error||'LiveAvatar not configured');const SDK=await import('https://esm.sh/@heygen/liveavatar-web-sdk@0.0.19');liveAvatar=new SDK.LiveAvatarSession(x.session_token,{autoKeepAlive:true});liveAvatar.on(SDK.SessionEvent.SESSION_STREAM_READY,async()=>{liveAvatar.attach($('avatar'));document.body.classList.add('live');await $('avatar').play().catch(()=>{});status('SARA LIVE',true)});liveAvatar.on(SDK.AgentEventsEnum.AVATAR_SPEAK_STARTED,()=>status('بول رہی ہوں…',true));liveAvatar.on(SDK.AgentEventsEnum.AVATAR_SPEAK_ENDED,()=>status('SARA LIVE',true));await liveAvatar.start()}catch(e){liveAvatar=null;status('Fallback Avatar',true);$('mic').textContent='LiveAvatar configured نہیں، اس لیے fallback avatar + voice چل رہا ہے۔'}}
+$('talk').onclick=startMic;
+$('stop').onclick=()=>{if(recognition&&listening)try{recognition.stop()}catch{};if(window.speechSynthesis)window.speechSynthesis.cancel();status('Stopped');$('mic').textContent='SARA روک دی گئی ہے۔'};
+$('settings').onclick=()=>$('settingsBox').classList.toggle('open');
+$('saveBackend').onclick=()=>{BACKEND=$('backendInput').value.trim().replace(/\/$/,'');localStorage.setItem('sara_backend_url',BACKEND);location.reload()};
+$('tiktok').onclick=()=>{if(!BACKEND)return $('settingsBox').classList.add('open');location.href=BACKEND+'/auth/tiktok'};
+(async()=>{if(BACKEND){try{const h=await(await api('/api/health')).json();if(h.liveAvatarConfigured)await startLiveAvatar();else status('Fallback Avatar',true)}catch{status('Backend offline')}}else status('Demo Avatar',true)})();
+</script>
+</body></html>
