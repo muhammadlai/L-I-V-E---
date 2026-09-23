@@ -1,1 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><defs><radialGradient id="bg"><stop stop-color="#3b2947"/><stop offset="1" stop-color="#080a10"/></radialGradient><linearGradient id="hair" x1="0" x2="1"><stop stop-color="#171118"/><stop offset=".5" stop-color="#39232b"/><stop offset="1" stop-color="#120e15"/></linearGradient></defs><rect width="800" height="800" fill="url(#bg)"/><circle cx="400" cy="310" r="205" fill="#f4c4b5"/><path d="M190 330Q170 95 400 80Q630 95 610 330Q590 150 400 145Q210 150 190 330Z" fill="url(#hair)"/><path d="M190 300Q135 610 245 735L330 650Q225 500 270 275Z" fill="url(#hair)"/><path d="M610 300Q665 610 555 735L470 650Q575 500 530 275Z" fill="url(#hair)"/><ellipse cx="325" cy="325" rx="25" ry="31" fill="#39251e"/><ellipse cx="475" cy="325" rx="25" ry="31" fill="#39251e"/><circle cx="332" cy="316" r="7" fill="#fff"/><circle cx="482" cy="316" r="7" fill="#fff"/><path d="M330 430Q400 480 470 430" fill="none" stroke="#b65e69" stroke-width="12" stroke-linecap="round"/><path d="M175 260Q165 105 250 85L270 245Z" fill="#f1f3f6" opacity=".9"/><path d="M625 260Q635 105 550 85L530 245Z" fill="#f1f3f6" opacity=".9"/><rect x="130" y="150" width="75" height="260" rx="38" fill="#f1f3f6" opacity=".9"/><rect x="595" y="150" width="75" height="260" rx="38" fill="#f1f3f6" opacity=".9"/><path d="M275 620Q400 550 525 620L590 800H210Z" fill="#15161d"/><text x="400" y="755" text-anchor="middle" fill="#fff" font-family="sans-serif" font-size="28">SARA AI</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900">
+<defs>
+  <radialGradient id="bg" cx="50%" cy="28%" r="75%"><stop offset="0" stop-color="#182035"/><stop offset=".55" stop-color="#090b14"/><stop offset="1" stop-color="#020307"/></radialGradient>
+  <linearGradient id="hair" x1="0" x2="1"><stop stop-color="#07070b"/><stop offset=".48" stop-color="#24202c"/><stop offset="1" stop-color="#050509"/></linearGradient>
+  <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffe8e1"/><stop offset="1" stop-color="#e9b7b0"/></linearGradient>
+  <linearGradient id="jacket" x1="0" x2="1"><stop stop-color="#080910"/><stop offset=".5" stop-color="#1c1b28"/><stop offset="1" stop-color="#07080e"/></linearGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="7"/></filter>
+</defs>
+<rect width="800" height="900" fill="url(#bg)"/>
+<ellipse cx="400" cy="790" rx="250" ry="42" fill="#000" opacity=".55" filter="url(#glow)"/>
+
+<!-- long hair -->
+<path d="M164 430Q112 150 400 88Q688 150 636 430L700 760Q646 830 566 770L514 560L286 560L234 770Q154 830 100 760Z" fill="url(#hair)" stroke="#4a4050" stroke-width="5"/>
+<path d="M205 365Q170 140 400 118Q630 140 595 365Q560 210 400 205Q240 210 205 365Z" fill="#09090e"/>
+
+<!-- face -->
+<path d="M238 250Q400 170 562 250L548 438Q530 548 400 590Q270 548 252 438Z" fill="url(#skin)" stroke="#d7a6a0" stroke-width="3"/>
+
+<!-- front hair -->
+<path d="M220 330Q210 170 300 128Q370 105 400 140Q360 245 305 330Q270 372 220 330Z" fill="url(#hair)"/>
+<path d="M580 330Q590 170 500 128Q430 105 400 140Q440 245 495 330Q530 372 580 330Z" fill="url(#hair)"/>
+<path d="M325 145Q400 105 475 145Q454 215 400 260Q346 215 325 145Z" fill="#111019"/>
+
+<!-- eyes -->
+<g>
+ <path d="M285 365Q325 332 365 365Q330 404 285 365Z" fill="#fff"/>
+ <path d="M435 365Q475 332 515 365Q470 404 435 365Z" fill="#fff"/>
+ <ellipse cx="331" cy="369" rx="17" ry="23" fill="#4b3c78"/>
+ <ellipse cx="469" cy="369" rx="17" ry="23" fill="#4b3c78"/>
+ <circle cx="334" cy="365" r="7" fill="#fff"/>
+ <circle cx="472" cy="365" r="7" fill="#fff"/>
+ <path d="M283 348Q326 316 369 344" fill="none" stroke="#16131b" stroke-width="10" stroke-linecap="round"/>
+ <path d="M431 344Q474 316 517 348" fill="none" stroke="#16131b" stroke-width="10" stroke-linecap="round"/>
+ <path d="M283 365Q325 414 369 365" fill="none" stroke="#17131d" stroke-width="5">
+   <animate attributeName="d" values="M283 365Q325 414 369 365;M283 365Q325 365 369 365;M283 365Q325 414 369 365" dur="4.6s" repeatCount="indefinite"/>
+ </path>
+ <path d="M431 365Q475 414 517 365" fill="none" stroke="#17131d" stroke-width="5">
+   <animate attributeName="d" values="M431 365Q475 414 517 365;M431 365Q475 365 517 365;M431 365Q475 414 517 365" dur="4.6s" repeatCount="indefinite"/>
+ </path>
+</g>
+
+<!-- nose + talking mouth -->
+<path d="M400 382Q382 440 400 448Q418 440 400 382" fill="none" stroke="#c98e8d" stroke-width="5" stroke-linecap="round"/>
+<path d="M355 470Q400 492 445 470Q434 520 400 523Q366 520 355 470Z" fill="#8f465c">
+ <animate attributeName="d" values="M355 470Q400 492 445 470Q434 520 400 523Q366 520 355 470Z;M360 478Q400 478 440 478Q430 495 400 497Q370 495 360 478Z;M355 470Q400 492 445 470Q434 520 400 523Q366 520 355 470Z" dur=".72s" repeatCount="indefinite"/>
+</path>
+<path d="M372 486Q400 500 428 486" fill="none" stroke="#f7b3bd" stroke-width="5" stroke-linecap="round"/>
+
+<!-- neck -->
+<path d="M348 530L348 620Q400 652 452 620L452 530Z" fill="url(#skin)"/>
+
+<!-- blouse and jacket -->
+<path d="M270 590Q400 548 530 590L630 900H170Z" fill="url(#jacket)" stroke="#3a3747" stroke-width="5"/>
+<path d="M330 590L400 700L470 590L438 560H362Z" fill="#f4eef1"/>
+<path d="M345 610L400 700L455 610" fill="none" stroke="#b7a9c1" stroke-width="4"/>
+<path d="M315 615Q400 670 485 615" fill="none" stroke="#7b6c8e" stroke-width="3"/>
+
+<!-- necklace -->
+<path d="M348 570Q400 620 452 570" fill="none" stroke="#d7c1d5" stroke-width="4"/>
+<circle cx="400" cy="620" r="10" fill="#9b79c7" stroke="#f0dff0" stroke-width="3"/>
+
+<!-- crossed arms / gentle gesture -->
+<path d="M235 700Q320 650 405 735Q470 800 548 720" fill="none" stroke="#e8b8b1" stroke-width="58" stroke-linecap="round"/>
+<path d="M238 700Q320 650 405 735" fill="none" stroke="#1b1b25" stroke-width="72" stroke-linecap="round" opacity=".95"/>
+<path d="M562 720Q490 670 400 735" fill="none" stroke="#1b1b25" stroke-width="72" stroke-linecap="round" opacity=".95"/>
+<path d="M235 700Q320 650 405 735" fill="none" stroke="#e8b8b1" stroke-width="32" stroke-linecap="round"/>
+<path d="M565 720Q492 670 400 735" fill="none" stroke="#e8b8b1" stroke-width="32" stroke-linecap="round">
+ <animateTransform attributeName="transform" type="rotate" values="0 565 720;3 565 720;0 565 720;-2 565 720;0 565 720" dur="3.8s" repeatCount="indefinite"/>
+</path>
+
+<!-- earrings -->
+<circle cx="246" cy="418" r="10" fill="#d9b7ef"/><circle cx="554" cy="418" r="10" fill="#d9b7ef"/>
+
+<!-- subtle breathing / body motion -->
+<g>
+ <animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0;0 2;0 0" dur="3.4s" repeatCount="indefinite"/>
+</g>
+<text x="400" y="858" text-anchor="middle" fill="#d8d3df" opacity=".72" font-family="Inter,Arial,sans-serif" font-size="20" letter-spacing="4">SARA AI</text>
+</svg>
