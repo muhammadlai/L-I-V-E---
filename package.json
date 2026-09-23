@@ -1,0 +1,19 @@
+{
+  "name": "sara-ai-live-agent",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check runtime.js",
+    "cap:sync": "npx cap sync",
+    "cap:android": "npx cap open android"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@capacitor/android": "^7.4.0",
+    "@capacitor/core": "^7.4.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.0"
+  }
+}
